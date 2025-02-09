@@ -46,38 +46,6 @@ class LibraryReposImp implements LibraryRepos {
   }
 
   @override
-  Stream<Either<Failure, List<CollectionModel>>> fetchCollections(
-      {required String id}) async* {
-    try {
-      final collectionStream = FirebaseFirestore.instance
-          .collection('users')
-          .doc(id)
-          .collection('collections')
-          .orderBy('createdAt', descending: false)
-          .snapshots();
-      if (await collectionStream.isEmpty) {
-        yield Left(FirebaseFailure('There is no data available'));
-      } else {
-        await for (final snapshot in collectionStream) {
-          final List<CollectionModel> collections = [];
-          for (var doc in snapshot.docs) {
-            collections.add(CollectionModel.fromMap(doc.data()));
-          }
-
-          yield Right(collections);
-        }
-      }
-    } catch (e) {
-      if (e is FirebaseAuthException) {
-        yield Left(FirebaseFailure.fromFirebaseAuthException(
-            e.toString() as FirebaseAuthException));
-      } else {
-        yield Left(FirebaseFailure(e.toString()));
-      }
-    }
-  }
-
-  @override
   Future<Either<Failure, void>> updateCollection(
       {required CollectionModel collection}) async {
     try {
@@ -101,7 +69,7 @@ class LibraryReposImp implements LibraryRepos {
   Future<Either<Failure, void>> deleteCollection(
       {required CollectionModel collection}) async {
     try {
-  await FirebaseFirestore.instance
+      await FirebaseFirestore.instance
           .collection('users')
           .doc(uId)
           .collection('collections')
@@ -165,6 +133,60 @@ class LibraryReposImp implements LibraryRepos {
         ),
       });
       return right(null);
+    } catch (e) {
+      if (e is FirebaseAuthException) {
+        return left(FirebaseFailure.fromFirebaseAuthException(e));
+      } else {
+        return left(FirebaseFailure(e.toString()));
+      }
+    }
+  }
+
+  @override
+  Stream<Either<Failure, CollectionModel>> fetchRecipesOfCollection(
+      {required String collectionId}) async* {
+    try {
+      final collectionStream = FirebaseFirestore.instance
+          .collection('users')
+          .doc(uId)
+          .collection('collections')
+          .doc(collectionId)
+          .snapshots();
+      if (await collectionStream.isEmpty) {
+        yield Left(FirebaseFailure('There is no data available'));
+      } else {
+        await for (final snapshot in collectionStream) {
+          yield Right(CollectionModel.fromMap(snapshot.data()!));
+        }
+      }
+    } catch (e) {
+      if (e is FirebaseAuthException) {
+        yield Left(FirebaseFailure.fromFirebaseAuthException(
+            e.toString() as FirebaseAuthException));
+      } else {
+        yield Left(FirebaseFailure(e.toString()));
+      }
+    }
+  }
+
+  Future<Either<Failure, List<CollectionModel>>> fetchCollections({
+    required id,
+  }) async {
+    try {
+      final collectionDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(id)
+          .collection('collections')
+          .get();
+      if (collectionDoc.docs.isNotEmpty) {
+        List<CollectionModel> collections = [];
+        for (var collection in collectionDoc.docs) {
+          collections.add(CollectionModel.fromMap(collection.data()));
+        }
+        return Right(collections);
+      } else {
+        return Right([]);
+      }
     } catch (e) {
       if (e is FirebaseAuthException) {
         return left(FirebaseFailure.fromFirebaseAuthException(e));

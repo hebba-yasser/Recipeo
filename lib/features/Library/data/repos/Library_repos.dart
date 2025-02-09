@@ -9,8 +9,12 @@ abstract class LibraryRepos {
   Future<Either<Failure, RecipeModel>> fetchRecipeById({required int id});
   Future<Either<Failure, void>> addCollection(
       {required CollectionModel collection});
-  Stream<Either<Failure, List<CollectionModel>>> fetchCollections(
+
+  Future<Either<Failure, List<CollectionModel>>> fetchCollections(
       {required String id});
+  Stream<Either<Failure, CollectionModel>> fetchRecipesOfCollection({
+    required String collectionId,
+  });
 
   Future<Either<Failure, void>> updateCollection(
       {required CollectionModel collection});

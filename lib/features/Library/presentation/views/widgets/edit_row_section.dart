@@ -97,7 +97,7 @@ class EditRowSection extends StatelessWidget {
                       children: [
                         const Icon(Icons.add),
                         Text(
-                          'Add Videos',
+                          'Add recipes',
                           style: AppFonts.bodyText16,
                         ),
                       ],

@@ -11,22 +11,19 @@ class FetchCollectionsCubit extends Cubit<FetchCollectionsState> {
     this.libraryRepos,
   ) : super(FetchCollectionsInitial());
   List<CollectionModel> collectionList = [];
-  void fetchCollections({required String id}) {
+  Future<void> fetchCollections({required String id}) async {
     emit(FetchCollectionsLoading());
-    libraryRepos
-        .fetchCollections(
+    var result = await libraryRepos.fetchCollections(
       id: id,
-    )
-        .listen((result) {
-      result.fold(
-        (failure) {
-          emit(FetchCollectionsFailure(failure.errMessage));
-        },
-        (collections) {
-          collectionList = collections;
-          emit(FetchCollectionsSuccess(collections));
-        },
-      );
-    });
+    );
+    result.fold(
+      (failure) {
+        emit(FetchCollectionsFailure(failure.errMessage));
+      },
+      (collections) {
+        collectionList = collections;
+        emit(FetchCollectionsSuccess(collections));
+      },
+    );
   }
 }

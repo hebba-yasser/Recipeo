@@ -4,6 +4,7 @@ import 'package:recpie_app/core/utils/service_locator.dart';
 import 'package:recpie_app/features/Library/data/repos/library_repos_imp.dart';
 import 'package:recpie_app/features/Library/presentation/views/widgets/create_collection_recipes_view_body.dart';
 
+import '../manager/fetch_collections_cubit/fetch_collections_cubit.dart';
 import '../manager/manage_collections_cubit/manage_collections_cubit.dart';
 
 class CreateCollectionRecipesView extends StatelessWidget {
@@ -14,7 +15,10 @@ class CreateCollectionRecipesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ManageCollectionsCubit(getIt.get<LibraryReposImp>()),
+      create: (context) => ManageCollectionsCubit(
+        getIt.get<LibraryReposImp>(),
+        context.read<FetchCollectionsCubit>(),
+      ),
       child: Scaffold(
         body: CreateCollectionRecipesViewBody(
           collectionName: collectionName,

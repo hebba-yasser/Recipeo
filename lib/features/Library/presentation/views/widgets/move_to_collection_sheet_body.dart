@@ -7,7 +7,6 @@ import '../../../../../core/Views/widgets/custom_divider.dart';
 import '../../../../../core/Views/widgets/custom_image.dart';
 import '../../../../../core/styles/fonts.dart';
 import '../../../../../core/utils/functions/custom_show_toast.dart';
-import '../../manager/fetch_collections_cubit/fetch_collections_cubit.dart';
 import '../../manager/manage_collections_cubit/manage_collections_cubit.dart';
 import '../../manager/manage_collections_cubit/manage_collections_state.dart';
 import 'library_sheet_app_bar.dart';
@@ -23,11 +22,15 @@ class MoveToCollectionSheetBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var cubit = context.read<ManageCollectionsCubit>();
-    var collection = context.read<FetchCollectionsCubit>().collectionList;
+    var collection = context
+        .read<ManageCollectionsCubit>()
+        .fetchCollectionsCubit
+        .collectionList;
+
     collection.removeWhere(
       (element) => element.collectionId == currentId,
     );
-
+    print(collection);
     return BlocConsumer<ManageCollectionsCubit, ManageCollectionsState>(
       listener: (context, state) {
         if (state is MoveRecipesSuccess) {

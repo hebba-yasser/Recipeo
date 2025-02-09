@@ -10,6 +10,7 @@ import '../../../../../constants.dart';
 import '../../../../../core/Views/widgets/custom_back_button.dart';
 import '../../../../../core/Views/widgets/custom_text_button.dart';
 import '../../../../../core/styles/fonts.dart';
+import '../../manager/fetch_recipes_of_collection_cubit/fetch_recipes_of_collection_cubit.dart';
 import '../../manager/manage_collections_cubit/manage_collections_cubit.dart';
 import '../../manager/manage_collections_cubit/manage_collections_state.dart';
 
@@ -24,18 +25,17 @@ class CollectionRecipesAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var cubit = context.read<ManageCollectionsCubit>();
-    return BlocListener<ManageCollectionsCubit, ManageCollectionsState>(
+    return BlocConsumer<ManageCollectionsCubit, ManageCollectionsState>(
       listener: (context, state) {
         if (state is DeleteCollectionsSuccess) {
           Navigator.pop(context);
           customShowToast('Collection Deleted Successfully');
-          Navigator.pop(context);
         }
         if (state is DeleteCollectionsFailure) {
           customShowToast(state.errMessage);
         }
       },
-      child: Padding(
+      builder: (context, state) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Row(
           children: [
@@ -51,6 +51,10 @@ class CollectionRecipesAppBar extends StatelessWidget {
                     titleButton2: 'Delete',
                     titleButton1: 'Cancel',
                     onPressed2: () async {
+                      Navigator.pop(context);
+                      await context
+                          .read<FetchRecipesOfCollectionCubit>()
+                          .close();
                       await cubit.deleteCollections(collection: collection);
                     },
                     onPressed1: () {

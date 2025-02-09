@@ -34,7 +34,6 @@ class CollectionsGidView extends StatelessWidget {
                       context,
                       CollectionRecipesView(
                         collectionId: state.collectionList[index].collectionId!,
-                        value: BlocProvider.of<FetchCollectionsCubit>(context),
                       ),
                     );
                   },
