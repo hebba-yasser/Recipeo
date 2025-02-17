@@ -19,7 +19,7 @@ class RecipeModel extends Equatable {
   final dynamic preparationMinutes;
   final dynamic cookingMinutes;
   final String? aggregateLikes;
-  final int? healthScore;
+  final num? healthScore;
   final String? creditsText;
   final String? sourceName;
   final double? pricePerServing;
@@ -98,7 +98,7 @@ class RecipeModel extends Equatable {
       preparationMinutes: json['preparationMinutes'] as dynamic,
       cookingMinutes: json['cookingMinutes'] as dynamic,
       aggregateLikes: json['aggregateLikes'].toString() as String?,
-      healthScore: json['healthScore'] as int?,
+      healthScore: json['healthScore'] as num?,
       creditsText: json['creditsText'] as String?,
       sourceName: json['sourceName'] as String?,
       pricePerServing: (json['pricePerServing'] as num?)?.toDouble(),
