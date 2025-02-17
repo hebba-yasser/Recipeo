@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recpie_app/features/home/presentation/manager/easy_recipes_cubit/easy_recipes_cubit.dart';
 import 'package:recpie_app/features/home/presentation/views/widgets/recipes_list_view.dart';
 
-import '../../../../../core/utils/functions/custom_loading_indicator.dart';
+import '../../../../../core/Views/widgets/skeletonized_home_recipes.dart';
 
 class EasyRecipesSection extends StatelessWidget {
   const EasyRecipesSection({
@@ -27,7 +27,7 @@ class EasyRecipesSection extends StatelessWidget {
           ),
         );
       } else {
-        return customLoadingIndicator();
+        return SkeletonizedHomeRecipes();
       }
     });
   }

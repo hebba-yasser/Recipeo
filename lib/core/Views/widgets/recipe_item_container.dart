@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:recpie_app/core/Views/widgets/rating_container.dart';
 import 'package:recpie_app/core/Views/widgets/recipe_info_container.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../core/data/models/recipe_model/recipe_model.dart';
 import '../../data/models/user_model/small_recipe_model.dart';
@@ -18,7 +19,8 @@ class RecipeItemContainer extends StatelessWidget {
     return Container(
       height: MediaQuery.of(context).size.height * .3,
       width: MediaQuery.of(context).size.width * 0.85,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.black12, width: .8),
         borderRadius: BorderRadius.all(
           Radius.circular(15),
         ),
@@ -28,12 +30,13 @@ class RecipeItemContainer extends StatelessWidget {
         children: [
           Positioned.fill(
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(
-                  15), // Ensures image respects border radius
-              child: CachedNetworkImage(
-                fit: BoxFit.fitWidth,
-                imageUrl: recipe.image ?? ' ', // Optional: Placeholder
-                errorWidget: (context, url, error) => const Icon(Icons.error),
+              borderRadius: BorderRadius.circular(15),
+              child: Skeleton.ignore(
+                child: CachedNetworkImage(
+                  fit: BoxFit.fitWidth,
+                  imageUrl: recipe.image ?? ' ', // Optional: Placeholder
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),
               ),
             ),
           ),

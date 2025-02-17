@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/Views/widgets/skeletonized_square_recipes.dart';
 import '../../../../../core/Views/widgets/square_recipe_body.dart';
-import '../../../../../core/utils/functions/custom_loading_indicator.dart';
 import '../../manager/highly_rated_recipes_cubit/highly_rated_recipes_cubit.dart';
 
 class HighlyRelatedRecipesSection extends StatelessWidget {
@@ -27,7 +27,7 @@ class HighlyRelatedRecipesSection extends StatelessWidget {
           ),
         );
       } else {
-        return customLoadingIndicator();
+        return SkeletonizedSquareRecipes();
       }
     });
   }

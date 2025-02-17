@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recpie_app/features/home/presentation/views/widgets/recipes_list_view.dart';
 
-import '../../../../../core/utils/functions/custom_loading_indicator.dart';
+import '../../../../../core/Views/widgets/skeletonized_home_recipes.dart';
 import '../../manager/popular_recipes_cubit/popular_recipes_cubit.dart';
 
 class PopularRecipesSection extends StatelessWidget {
@@ -27,7 +27,7 @@ class PopularRecipesSection extends StatelessWidget {
           ),
         );
       } else {
-        return customLoadingIndicator();
+        return SkeletonizedHomeRecipes();
       }
     });
   }

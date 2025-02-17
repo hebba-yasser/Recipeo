@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recpie_app/core/Views/widgets/rating_container.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../data/models/user_model/small_recipe_model.dart';
 import '../../styles/fonts.dart';
@@ -25,12 +26,14 @@ class SquareRecipeItem extends StatelessWidget {
         children: [
           Stack(
             children: [
-              SizedBox(
-                //width: 150,
-                height: 200,
-                child: CustomImage(
-                  imgUrl: model.image ?? '',
-                  aspectRatio: aspectRatio,
+              Skeleton.ignore(
+                child: SizedBox(
+                  //width: 150,
+                  height: 200,
+                  child: CustomImage(
+                    imgUrl: model.image ?? '',
+                    aspectRatio: aspectRatio,
+                  ),
                 ),
               ),
               Positioned(
